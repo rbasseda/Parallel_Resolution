@@ -1,5 +1,7 @@
 package wumpus;
 
+import java.io.*;
+
 /**
  * 
  */
@@ -32,10 +34,12 @@ public class Cave {
 	private int wumpusX = 0;
 	private int wumpusY = 0;
 
-	private boolean[][] pits = new boolean[4][4];
+	private boolean[][] pits;
 
 	private int goldX = 0;
 	private int goldY = 0;
+	
+	private int size;
 
 	/**
 	 * @param oMode
@@ -43,6 +47,10 @@ public class Cave {
 	 */
 	public Cave(int oMode) {
 		super();
+		size = 4;
+		
+		pits = new boolean[size][size];
+		
 		pits[2][0] = true;
 		pits[2][2] = true;
 		pits[3][3] = true;
@@ -57,6 +65,73 @@ public class Cave {
 
 		// TODO Auto-generated constructor stub
 	}
+	
+	public Cave(int oMode, String fileName) {
+		super();
+		int gX, gY, wX, wY;
+		char data;
+	
+		System.out.print("This is the file => ");
+		System.out.println(fileName);
+		
+	
+		outputMode = oMode;
+		
+		wumpusX = 0;
+		wumpusY = 2;
+		
+		goldX = 1;
+		goldY = 2;
+		
+        try {
+            // FileReader reads text files in the default encoding.
+            FileReader fileReader = 
+                new FileReader(fileName);
+
+            // Always wrap FileReader in BufferedReader.
+            BufferedReader bufferedReader = 
+                new BufferedReader(fileReader);
+
+    		size = Integer.parseInt(bufferedReader.readLine());
+    		gX = Integer.parseInt(bufferedReader.readLine());
+    		gY = Integer.parseInt(bufferedReader.readLine());
+    		wX = Integer.parseInt(bufferedReader.readLine());
+    		wY = Integer.parseInt(bufferedReader.readLine());
+    		//pits = new bool[size][size];
+    		pits = new boolean[size][size];         
+            
+    		for( int i = 0 ; i < size ; ++i){
+    			for( int j =0 ; j < size ; ++j){
+    				myReadFile >> data;
+    				if( data == 'p'){
+    					pits[j][i] = true;
+    				} else {
+    					pits[j][i] = false;
+    				}
+    			}
+    			std::cout << "\n";
+    		}
+
+
+            // Always close files.
+            bufferedReader.close();         
+        }
+        catch(FileNotFoundException ex) {
+            System.out.println(
+                "Unable to open file '" + 
+                fileName + "'");                
+        }
+        catch(IOException ex) {
+            System.out.println(
+                "Error reading file '" 
+                + fileName + "'");                  
+            // Or we could just do this: 
+            // ex.printStackTrace();
+        }
+    }		
+
+		// TODO Auto-generated constructor stub
+	}	
 
 	/**
 	 * 
