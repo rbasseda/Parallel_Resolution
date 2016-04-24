@@ -1,6 +1,7 @@
 package wumpus;
 
 import java.io.*;
+import java.util.Scanner;
 
 /**
  * 
@@ -97,19 +98,24 @@ public class Cave {
     		gY = Integer.parseInt(bufferedReader.readLine());
     		wX = Integer.parseInt(bufferedReader.readLine());
     		wY = Integer.parseInt(bufferedReader.readLine());
-    		//pits = new bool[size][size];
+
     		pits = new boolean[size][size];         
+
             
     		for( int i = 0 ; i < size ; ++i){
     			for( int j =0 ; j < size ; ++j){
-    				myReadFile >> data;
+    				data = (char) bufferedReader.read(); 
+    				bufferedReader.read();
     				if( data == 'p'){
     					pits[j][i] = true;
     				} else {
     					pits[j][i] = false;
     				}
     			}
-    			std::cout << "\n";
+    			wumpusX = wX;
+    			wumpusY = wY;
+    			goldX = gX;
+    			goldY = gY;    		
     		}
 
 
@@ -131,7 +137,7 @@ public class Cave {
     }		
 
 		// TODO Auto-generated constructor stub
-	}	
+	
 
 	/**
 	 * 
@@ -336,6 +342,10 @@ public class Cave {
 			System.out.print(t+"\t");
 		}else System.out.println(t+"\t");
 
+	}
+
+	public int getSize() {
+		return size;
 	}
 
 }
