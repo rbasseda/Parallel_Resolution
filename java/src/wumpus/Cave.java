@@ -188,13 +188,13 @@ public class Cave {
 		if ( action == 'M' ){
 			switch (agentDirection) {
 			case 0:
-				if ( agentX == 3 )
+				if ( agentX == size -1 )
 					return new Perception(getStench(agentX, agentY), getBreezeState(agentX, agentY), getGlitter(agentX, agentY), true, !wumpusAlive);
 				else
 					agentX++;
 				break;
 			case 1:
-				if ( agentY == 3 )
+				if ( agentY == size -1 )
 					return new Perception(getStench(agentX, agentY), getBreezeState(agentX, agentY), getGlitter(agentX, agentY), true, !wumpusAlive);
 				else
 					agentY++;
@@ -265,13 +265,13 @@ public class Cave {
 	 */
 
 	private boolean getBreezeState(int x, int y){
-		if( ( x + 1 ) < 4 ){
+		if( ( x + 1 ) < size ){
 			if( pits[ x + 1 ][y] ) return true;
 		}
 		if( ( x - 1 ) >= 0 ){
 			if( pits[ x - 1 ][y] ) return true;
 		}		
-		if( ( y + 1 ) < 4 ){
+		if( ( y + 1 ) < size ){
 			if( pits[x][ y + 1 ] ) return true;
 		}
 		if( ( y - 1 ) >= 0 ){
@@ -290,9 +290,9 @@ public class Cave {
 	 * This function considers the Stench perception according to the agent's position
 	 */
 	private boolean getStench(int x, int y){
-		if( (( x + 1 ) < 4 ) && (( x + 1)==wumpusX) && (y==wumpusY) )return true;
+		if( (( x + 1 ) < size ) && (( x + 1)==wumpusX) && (y==wumpusY) )return true;
 		if( (( x - 1 ) >= 0 ) && (( x - 1)==wumpusX) && (y==wumpusY) )return true;
-		if( (( y + 1 ) < 4 ) && (( y + 1)==wumpusY) && (x==wumpusX) )return true;
+		if( (( y + 1 ) < size ) && (( y + 1)==wumpusY) && (x==wumpusX) )return true;
 		if( (( y - 1 ) >= 0 ) && (( y - 1)==wumpusY) && (x==wumpusX) )return true;
 		return false;
 	}
@@ -334,6 +334,7 @@ public class Cave {
 						if( agentDirection == 3 )System.out.print("v");				
 					} else if( ( i == wumpusX ) && ( j == wumpusY ) )System.out.print("W");
 					else if( pits[i][j] )System.out.print("*");
+					else if( ( i == goldX ) && ( j == goldY ) )System.out.print("G");
 					else System.out.print(" ");
 				}
 				System.out.println("|");

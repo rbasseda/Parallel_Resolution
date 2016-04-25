@@ -100,7 +100,7 @@ public class KnowledgeBase {
 					addClause(temp);
 				}
 				// ~B(x,y) => ~P(x+1,y)
-				if( i < 3 ){ 
+				if( i < size - 1 ){ 
 					Clause temp = new Clause();
 					temp.addPreposition(new Proposition('B', true, i, j));
 					temp.addPreposition(new Proposition('P', false, ( i + 1 ), j));
@@ -114,7 +114,7 @@ public class KnowledgeBase {
 					addClause(temp);
 				}
 				// ~B(x,y) => ~P(x,y+1)
-				if( j < 3 ){ 
+				if( j < size - 1 ){ 
 					Clause temp = new Clause();
 					temp.addPreposition(new Proposition('B', true, i, j));
 					temp.addPreposition(new Proposition('P', false, i, ( j + 1 )));
@@ -132,7 +132,7 @@ public class KnowledgeBase {
 					addClause(temp);
 				}
 				// ~S(x,y) => ~W(x+1,y)
-				if( i < 3 ){ 
+				if( i < size - 1 ){ 
 					Clause temp = new Clause();
 					temp.addPreposition(new Proposition('S', true, i, j));
 					temp.addPreposition(new Proposition('W', false, ( i + 1 ), j));
@@ -146,7 +146,7 @@ public class KnowledgeBase {
 					addClause(temp);
 				}
 				// ~S(x,y) => ~W(x,y+1)
-				if( j < 3 ){ 
+				if( j < size - 1 ){ 
 					Clause temp = new Clause();
 					temp.addPreposition(new Proposition('S', true, i, j));
 					temp.addPreposition(new Proposition('W', false, i, ( j + 1 )));

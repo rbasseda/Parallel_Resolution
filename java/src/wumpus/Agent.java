@@ -67,8 +67,8 @@ public class Agent {
 		this.yPos = yPos;
 		this.direction = direction;
 		outputMode = oMode;
-		executeActions();
 		kb = new KnowledgeBase(cave.getSize());
+		executeActions();
 	}
 
 
@@ -110,6 +110,14 @@ public class Agent {
 		int l = getHLeft();
 		int r = getHRight();
 		int b = getHBack();
+//		System.out.print("Direct Score=");
+//		System.out.println(d);
+//		System.out.print("Left   Score=");
+//		System.out.println(l);		
+//		System.out.print("Rightt Score=");
+//		System.out.println(r);
+//		System.out.print("Back   Score=");
+//		System.out.println(b);
 		if ( ( d >= l ) && ( d >= r ) && ( d >= b ) ) {
 			score--;
 			rewisePosition();
@@ -135,7 +143,8 @@ public class Agent {
 			cave.getAction('L');
 			cave.getAction('L');
 			direction += 2;
-			if( direction > 3 )direction -= 2;
+			if( direction > 3 )
+				direction -= 4;
 			rewisePosition();
 			return cave.getAction('M');
 		}
@@ -152,21 +161,21 @@ public class Agent {
 	private int getHDirect(){
 		switch(direction){
 		case 0:
-			if(xPos<3){
+			if(xPos<cave.getSize() - 1){
 				if ( kb.queryFact(new Proposition('P', true, ( xPos + 1 ), yPos)) )return -1001;
 				if ( kb.queryFact(new Proposition('W', true, ( xPos + 1 ), yPos)) )return -1001;
 				if ( ( kb.queryFact( (new Proposition('O', true, ( xPos + 1 ), yPos)) ) && ( !kb.queryFact(new Proposition('V', true, ( xPos + 1 ), yPos))) ) )return 999;
 				if ( ( kb.queryFact( (new Proposition('O', true, ( xPos + 1 ), yPos)) ) && ( kb.queryFact(new Proposition('V', true, ( xPos + 1 ), yPos))) ) )return -1;
-				if ( kb.queryFact (new Proposition('O', true, ( xPos + 1 ), yPos)) )   return -201;
+				if ( kb.queryFact(new Proposition('O', true, ( xPos + 1 ), yPos)) )   return -201;
 			} else return -4000;
 			break;
 		case 1:
-			if(yPos<3){
+			if(yPos<cave.getSize() - 1){
 				if ( kb.queryFact(new Proposition('P', true, xPos, ( yPos + 1 ))) )return -1001;
 				if ( kb.queryFact(new Proposition('W', true, xPos, ( yPos + 1 ))) )return -1001;
 				if ( ( kb.queryFact( (new Proposition('O', true, xPos, ( yPos + 1 ))) ) && ( !kb.queryFact(new Proposition('V', true, xPos, ( yPos + 1 )))) ) )return 999;
 				if ( ( kb.queryFact( (new Proposition('O', true, xPos, ( yPos + 1 ))) ) && ( kb.queryFact(new Proposition('V', true, xPos, ( yPos + 1 )))) ) )return -1;
-				if ( kb.queryFact (new Proposition('O', true, xPos, ( yPos + 1 ))) )   return -201;
+				if ( kb.queryFact(new Proposition('O', true, xPos, ( yPos + 1 ))) )   return -201;
 			} else return -4000;
 			break;	
 		case 2:
@@ -175,7 +184,7 @@ public class Agent {
 				if ( kb.queryFact(new Proposition('W', true, ( xPos - 1 ), yPos)) )return -1001;
 				if ( ( kb.queryFact( (new Proposition('O', true, ( xPos - 1 ), yPos)) ) && ( !kb.queryFact(new Proposition('V', true, ( xPos - 1 ), yPos))) ) )return 999;
 				if ( ( kb.queryFact( (new Proposition('O', true, ( xPos - 1 ), yPos)) ) && ( kb.queryFact(new Proposition('V', true, ( xPos - 1 ), yPos))) ) )return -1;
-				if ( kb.queryFact (new Proposition('O', true, ( xPos - 1 ), yPos)) )   return -201;
+				if ( kb.queryFact(new Proposition('O', true, ( xPos - 1 ), yPos)) )   return -201;
 			} else return -4000;
 			break;	
 		case 3:
@@ -184,7 +193,7 @@ public class Agent {
 				if ( kb.queryFact(new Proposition('W', true, xPos, ( yPos - 1 ))) )return -1001;
 				if ( ( kb.queryFact( (new Proposition('O', true, xPos, ( yPos - 1 ))) ) && ( !kb.queryFact(new Proposition('V', true, xPos, ( yPos - 1 )))) ) )return 999;
 				if ( ( kb.queryFact( (new Proposition('O', true, xPos, ( yPos - 1 ))) ) && ( kb.queryFact(new Proposition('V', true, xPos, ( yPos - 1 )))) ) )return -1;
-				if ( kb.queryFact (new Proposition('O', true, xPos, ( yPos - 1 ))) )   return -201;
+				if ( kb.queryFact(new Proposition('O', true, xPos, ( yPos - 1 ))) )   return -201;
 			} else return -4000;
 			break;	
 		default:
@@ -204,7 +213,7 @@ public class Agent {
 	private int getHLeft(){
 		switch(direction){
 		case 3:
-			if(xPos<3){
+			if(xPos<cave.getSize() - 1){
 				if ( kb.queryFact(new Proposition('P', true, ( xPos + 1 ), yPos)) )return -1002;
 				if ( kb.queryFact(new Proposition('W', true, ( xPos + 1 ), yPos)) )return -1002;
 				if ( ( kb.queryFact( (new Proposition('O', true, ( xPos + 1 ), yPos)) ) && ( !kb.queryFact(new Proposition('V', true, ( xPos + 1 ), yPos))) ) )return 998;
@@ -213,7 +222,7 @@ public class Agent {
 			} else return -4001;
 			break;
 		case 0:
-			if(yPos<3){
+			if(yPos<cave.getSize() - 1){
 				if ( kb.queryFact(new Proposition('P', true, xPos, ( yPos + 1 ))) )return -1002;
 				if ( kb.queryFact(new Proposition('W', true, xPos, ( yPos + 1 ))) )return -1002;
 				if ( ( kb.queryFact( (new Proposition('O', true, xPos, ( yPos + 1 ))) ) && ( !kb.queryFact(new Proposition('V', true, xPos, ( yPos + 1 )))) ) )return 998;
@@ -256,7 +265,7 @@ public class Agent {
 	private int getHRight(){
 		switch(direction){
 		case 1:
-			if(xPos<3){
+			if(xPos<cave.getSize() - 1){
 				if ( kb.queryFact(new Proposition('P', true, ( xPos + 1 ), yPos)) )return -1002;
 				if ( kb.queryFact(new Proposition('W', true, ( xPos + 1 ), yPos)) )return -1002;
 				if ( ( kb.queryFact( (new Proposition('O', true, ( xPos + 1 ), yPos)) ) && ( !kb.queryFact(new Proposition('V', true, ( xPos + 1 ), yPos))) ) )return 998;
@@ -265,7 +274,7 @@ public class Agent {
 			} else return -4001;
 			break;
 		case 2:
-			if(yPos<3){
+			if(yPos<cave.getSize() - 1){
 				if ( kb.queryFact(new Proposition('P', true, xPos, ( yPos + 1 ))) )return -1002;
 				if ( kb.queryFact(new Proposition('W', true, xPos, ( yPos + 1 ))) )return -1002;
 				if ( ( kb.queryFact( (new Proposition('O', true, xPos, ( yPos + 1 ))) ) && ( !kb.queryFact(new Proposition('V', true, xPos, ( yPos + 1 )))) ) )return 998;
@@ -308,7 +317,7 @@ public class Agent {
 	private int getHBack(){
 		switch(direction){
 		case 2:
-			if(xPos<3){
+			if(xPos<cave.getSize() - 1){
 				if ( kb.queryFact(new Proposition('P', true, ( xPos + 1 ), yPos)) )return -1003;
 				if ( kb.queryFact(new Proposition('W', true, ( xPos + 1 ), yPos)) )return -1003;
 				if ( ( kb.queryFact( (new Proposition('O', true, ( xPos + 1 ), yPos)) ) && ( !kb.queryFact(new Proposition('V', true, ( xPos + 1 ), yPos))) ) )return 997;
@@ -317,7 +326,7 @@ public class Agent {
 			} else return -4002;
 			break;
 		case 3:
-			if(yPos<3){
+			if(yPos<cave.getSize() - 1){
 				if ( kb.queryFact(new Proposition('P', true, xPos, ( yPos + 1 ))) )return -1003;
 				if ( kb.queryFact(new Proposition('W', true, xPos, ( yPos + 1 ))) )return -1003;
 				if ( ( kb.queryFact( (new Proposition('O', true, xPos, ( yPos + 1 ))) ) && ( !kb.queryFact(new Proposition('V', true, xPos, ( yPos + 1 )))) ) )return 997;
