@@ -11,8 +11,9 @@ package wumpus;
 public class KnowledgeBase {
 
 	private Clause[] clauses;
+	private int size;
 	
-	private int recentNumberOfResolutionSteps = 0;
+	private int recentNumberOfResolutionSteps;
 	
 	private boolean wumpusAlive = true;
 
@@ -23,7 +24,7 @@ public class KnowledgeBase {
 	 * 
 	 * This function adds facts, used by agent
 	 */
-	public int addFact(Preposition p){
+	public int addFact(Proposition p){
 	recentNumberOfResolutionSteps = 0;
 	if( wumpusAlive ){
 		if( addClause(new Clause(p)) ) resolve();
@@ -44,7 +45,7 @@ public class KnowledgeBase {
 	 * 
 	 * 
 	 */
-	public boolean queryFact(Preposition q){
+	public boolean queryFact(Proposition q){
 		for( int i = 0 ; i < clauses.length ; ++i )
 			if( clauses[i].isFact(q) ) return true;
 		return false;
@@ -56,8 +57,10 @@ public class KnowledgeBase {
 	/**
 	 * 
 	 */
-	public KnowledgeBase() {
+	public KnowledgeBase(int size) {
 		super();
+		recentNumberOfResolutionSteps = 0;
+		this.size = size;
 		initializeRules();
 
 	}
@@ -69,84 +72,84 @@ public class KnowledgeBase {
 	private void initializeRules(){
 		int i = 0, j = 0;
 
-		for( i = 0 ; i < 4 ; ++i )     // V(x,y) => O(x,y)
-			for( j = 0 ; j < 4 ; ++j ){
+		for( i = 0 ; i < size ; ++i )     // V(x,y) => O(x,y)
+			for( j = 0 ; j < size ; ++j ){
 				Clause temp = new Clause();
-				temp.addPreposition(new Preposition('V', false, i, j));
-				temp.addPreposition(new Preposition('O', true, i, j));
+				temp.addPreposition(new Proposition('V', false, i, j));
+				temp.addPreposition(new Proposition('O', true, i, j));
 				addClause(temp);
 			}
 
-		for( i = 0 ; i < 4 ; ++i )     // ~P(x,y) & ~W(x,y) => O(x,y)
-			for( j = 0 ; j < 4 ; ++j ){
+		for( i = 0 ; i < size ; ++i )     // ~P(x,y) & ~W(x,y) => O(x,y)
+			for( j = 0 ; j < size ; ++j ){
 				Clause temp = new Clause();
-				temp.addPreposition(new Preposition('P', true, i, j));
-				temp.addPreposition(new Preposition('W', true, i, j));
-				temp.addPreposition(new Preposition('O', true, i, j));
+				temp.addPreposition(new Proposition('P', true, i, j));
+				temp.addPreposition(new Proposition('W', true, i, j));
+				temp.addPreposition(new Proposition('O', true, i, j));
 				addClause(temp);
 			}
 
 
-		for( i = 0 ; i < 4 ; ++i )     
-			for( j = 0 ; j < 4 ; ++j ){
+		for( i = 0 ; i < size ; ++i )     
+			for( j = 0 ; j < size ; ++j ){
 				// ~B(x,y) => ~P(x-1,y)
 				if( i > 0 ){ 
 					Clause temp = new Clause();
-					temp.addPreposition(new Preposition('B', true, i, j));
-					temp.addPreposition(new Preposition('P', false, ( i - 1 ), j));
+					temp.addPreposition(new Proposition('B', true, i, j));
+					temp.addPreposition(new Proposition('P', false, ( i - 1 ), j));
 					addClause(temp);
 				}
 				// ~B(x,y) => ~P(x+1,y)
 				if( i < 3 ){ 
 					Clause temp = new Clause();
-					temp.addPreposition(new Preposition('B', true, i, j));
-					temp.addPreposition(new Preposition('P', false, ( i + 1 ), j));
+					temp.addPreposition(new Proposition('B', true, i, j));
+					temp.addPreposition(new Proposition('P', false, ( i + 1 ), j));
 					addClause(temp);
 				}
 				// ~B(x,y) => ~P(x,y-1)
 				if( j > 0 ){ 
 					Clause temp = new Clause();
-					temp.addPreposition(new Preposition('B', true, i, j));
-					temp.addPreposition(new Preposition('P', false, i, ( j - 1 )));
+					temp.addPreposition(new Proposition('B', true, i, j));
+					temp.addPreposition(new Proposition('P', false, i, ( j - 1 )));
 					addClause(temp);
 				}
 				// ~B(x,y) => ~P(x,y+1)
 				if( j < 3 ){ 
 					Clause temp = new Clause();
-					temp.addPreposition(new Preposition('B', true, i, j));
-					temp.addPreposition(new Preposition('P', false, i, ( j + 1 )));
+					temp.addPreposition(new Proposition('B', true, i, j));
+					temp.addPreposition(new Proposition('P', false, i, ( j + 1 )));
 					addClause(temp);
 				}
 			}
 
-		for( i = 0 ; i < 4 ; ++i )     
-			for( j = 0 ; j < 4 ; ++j ){
+		for( i = 0 ; i < size ; ++i )     
+			for( j = 0 ; j < size ; ++j ){
 				// ~S(x,y) => ~W(x-1,y)
 				if( i > 0 ){ 
 					Clause temp = new Clause();
-					temp.addPreposition(new Preposition('S', true, i, j));
-					temp.addPreposition(new Preposition('W', false, ( i - 1 ), j));
+					temp.addPreposition(new Proposition('S', true, i, j));
+					temp.addPreposition(new Proposition('W', false, ( i - 1 ), j));
 					addClause(temp);
 				}
 				// ~S(x,y) => ~W(x+1,y)
 				if( i < 3 ){ 
 					Clause temp = new Clause();
-					temp.addPreposition(new Preposition('S', true, i, j));
-					temp.addPreposition(new Preposition('W', false, ( i + 1 ), j));
+					temp.addPreposition(new Proposition('S', true, i, j));
+					temp.addPreposition(new Proposition('W', false, ( i + 1 ), j));
 					addClause(temp);
 				}
 				// ~S(x,y) => ~W(x,y-1)
 				if( j > 0 ){ 
 					Clause temp = new Clause();
-					temp.addPreposition(new Preposition('S', true, i, j));
-					temp.addPreposition(new Preposition('W', false, i, ( j - 1 )));
+					temp.addPreposition(new Proposition('S', true, i, j));
+					temp.addPreposition(new Proposition('W', false, i, ( j - 1 )));
 					addClause(temp);
 				}
 				// ~S(x,y) => ~W(x,y+1)
 				if( j < 3 ){ 
 					Clause temp = new Clause();
-					temp.addPreposition(new Preposition('S', true, i, j));
-					temp.addPreposition(new Preposition('W', false, i, ( j + 1 )));
+					temp.addPreposition(new Proposition('S', true, i, j));
+					temp.addPreposition(new Proposition('W', false, i, ( j + 1 )));
 					addClause(temp);
 				}
 			}
@@ -206,18 +209,18 @@ public class KnowledgeBase {
 	}
 
 	public void wumpusHasBeenKilled(){
-		for( int i = 0 ; i < 4 ; ++i )
-			for( int j = 0 ; j < 4 ; ++j )
-				removeClause(new Clause(new Preposition('W', true, i, j))); 
-		for( int i = 0 ; i < 4 ; ++i )
-			for( int j = 0 ; j < 4 ; ++j )
-				removeClause(new Clause(new Preposition('S', true, i, j))); 
-		for( int i = 0 ; i < 4 ; ++i )
-			for( int j = 0 ; j < 4 ; ++j )
-				addClause(new Clause(new Preposition('W', false, i, j))); 
-		for( int i = 0 ; i < 4 ; ++i )
-			for( int j = 0 ; j < 4 ; ++j )
-				addClause(new Clause(new Preposition('S', false, i, j)));
+		for( int i = 0 ; i < size ; ++i )
+			for( int j = 0 ; j < size ; ++j )
+				removeClause(new Clause(new Proposition('W', true, i, j))); 
+		for( int i = 0 ; i < size ; ++i )
+			for( int j = 0 ; j < size ; ++j )
+				removeClause(new Clause(new Proposition('S', true, i, j))); 
+		for( int i = 0 ; i < size ; ++i )
+			for( int j = 0 ; j < size ; ++j )
+				addClause(new Clause(new Proposition('W', false, i, j))); 
+		for( int i = 0 ; i < size ; ++i )
+			for( int j = 0 ; j < size ; ++j )
+				addClause(new Clause(new Proposition('S', false, i, j)));
 		wumpusAlive = false;
 		resolve();
 	}

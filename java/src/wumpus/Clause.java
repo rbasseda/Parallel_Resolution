@@ -10,7 +10,7 @@ package wumpus;
  */
 public class Clause {
 
-	private Preposition[] prepositions = null;
+	private Proposition[] prepositions = null;
 	
 	
 	
@@ -21,17 +21,17 @@ public class Clause {
 	 * 
 	 * Constructor according to the list of prepositions
 	 */
-	public Clause(Preposition[] prepList1, Preposition[] prepList2) {
+	public Clause(Proposition[] prepList1, Proposition[] prepList2) {
 		super();
 		if ( ( prepList1 == null ) && ( prepList2 != null ) ){
-			prepositions = new Preposition[ prepList2.length ];
+			prepositions = new Proposition[ prepList2.length ];
 			for ( int i = 0 ; i < prepList2.length ; ++i ){
 				prepositions[i] = prepList2[i];
 			}
 			return;
 		}
 		if ( ( prepList1 != null ) && ( prepList2 == null ) ){
-			prepositions = new Preposition[ prepList1.length ];
+			prepositions = new Proposition[ prepList1.length ];
 			for ( int i = 0 ; i < prepList1.length ; ++i ){
 				prepositions[i] = prepList1[i];
 			}
@@ -41,7 +41,7 @@ public class Clause {
 			System.out.println("Invalid prepositions are give!!!!!");
 			return;
 		}
-		prepositions = new Preposition[ prepList1.length + prepList2.length ];
+		prepositions = new Proposition[ prepList1.length + prepList2.length ];
 		for ( int i = 0 ; i < prepList1.length ; ++i ){
 			prepositions[i] = prepList1[i];
 		}		
@@ -56,11 +56,11 @@ public class Clause {
 	 * @param First Preposition in the cluase
 	 * 
 	 */
-	public Clause(Preposition p) {
+	public Clause(Proposition p) {
 		super();
 		// TODO Auto-generated constructor stub
 		
-		prepositions = new Preposition[1];
+		prepositions = new Proposition[1];
 		prepositions[0] = p;
 		
 	}
@@ -71,7 +71,7 @@ public class Clause {
 	/**
 	 * @param prepositions
 	 */
-	public Clause(Preposition[] prepositions) {
+	public Clause(Proposition[] prepositions) {
 		super();
 		this.prepositions = prepositions;
 	}
@@ -103,14 +103,14 @@ public class Clause {
 	 * 
 	 * This function is a helping function for adding prepositions
 	 */
-	public void addPreposition(Preposition newPreposition){
+	public void addPreposition(Proposition newPreposition){
 		if( prepositions == null ) {
-			prepositions = new Preposition[1];
+			prepositions = new Proposition[1];
 			prepositions[0] = newPreposition;
 			return;
 		}
 		
-		Preposition[] newPrepositions = new Preposition[prepositions.length + 1];
+		Proposition[] newPrepositions = new Proposition[prepositions.length + 1];
 		
 		for( int i = 0 ; i < prepositions.length ; ++i ) newPrepositions[i] = prepositions[i];
 		newPrepositions[ prepositions.length ] = newPreposition;
@@ -125,7 +125,7 @@ public class Clause {
 	 * 
 	 * This function is a helping function which looks for a particular preposition
 	 */
-	public boolean containPreposition(Preposition p){
+	public boolean containPreposition(Proposition p){
 		if ( prepositions == null ) return false;
 		for( int i = 0 ; i < prepositions.length ; ++i ){
 			if ( prepositions[i].isSame(p) )return true;
@@ -140,7 +140,7 @@ public class Clause {
 	 * 
 	 * This function is a helping function which looks for the negation of a particular preposition
 	 */
-	public boolean containNegationOfPreposition(Preposition p){
+	public boolean containNegationOfPreposition(Proposition p){
 		if ( prepositions == null ) return false;
 		for( int i = 0 ; i < prepositions.length ; ++i ){
 			if ( prepositions[i].isNegation(p) )return true;
@@ -168,7 +168,7 @@ public class Clause {
 	/**
 	 * @return the prepositions
 	 */
-	public Preposition[] getPrepositions() {
+	public Proposition[] getPrepositions() {
 		return prepositions;
 	}
 
@@ -203,7 +203,7 @@ public class Clause {
 	 * This function is a helping function which deletes a particular preposition
 	 * 
 	 */
-	public Clause removePreposition(Preposition p){
+	public Clause removePreposition(Proposition p){
 		Clause output = new Clause();
 		for( int i = 0 ; i < prepositions.length ; ++i )
 			if( !prepositions[i].isSame(p) )output.addPreposition(prepositions[i]);
@@ -223,7 +223,7 @@ public class Clause {
 					++k;
 				}
 		}
-		Preposition[] newPrepositions = new Preposition[ prepositions.length - k ];
+		Proposition[] newPrepositions = new Proposition[ prepositions.length - k ];
 		int l = 0;
 		for( int i = 0 ; i < prepositions.length ; ++i)
 			if ( prepositions[i] != null ) newPrepositions[l++] = prepositions[i];
@@ -237,7 +237,7 @@ public class Clause {
 	 * 
 	 * This function is a helping function which checks a particular preposition to be the fact in KB
 	 */
-	public boolean isFact(Preposition p){
+	public boolean isFact(Proposition p){
 		if ( ( prepositions.length == 1 ) && ( prepositions[0].isSame(p) ) ) return true;
 		return false;
 	}

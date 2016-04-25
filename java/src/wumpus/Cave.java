@@ -324,8 +324,8 @@ public class Cave {
 		}
 		if( outputMode == 1 ){
 			System.out.println("Time = " + t);
-			for( int j = 3 ; j > -1 ; --j ){
-				for( int i = 0 ; i < 4 ; ++i ){
+			for( int j = size - 1 ; j > -1 ; --j ){
+				for( int i = 0 ; i < size ; ++i ){
 					System.out.print("|");
 					if( ( i == agentX ) && ( j == agentY ) ){
 						if( agentDirection == 0 )System.out.print(">");

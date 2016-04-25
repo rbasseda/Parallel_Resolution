@@ -8,7 +8,7 @@ package wumpus;
  * @author reza
  *
  */
-public class Preposition {
+public class Proposition {
 
 	/**
 	 * type can be  'B' => Breeze
@@ -31,7 +31,7 @@ public class Preposition {
 	 * @param xPos
 	 * @param yPos
 	 */
-	public Preposition(char type, boolean negation, int xPos, int yPos) {
+	public Proposition(char type, boolean negation, int xPos, int yPos) {
 		super();
 		this.type = type;
 		this.negation = negation;
@@ -88,7 +88,7 @@ public class Preposition {
 	 * @return
 	 * This function is a helping function checking similarity of two prepositions
 	 */
-	public boolean isSame(Preposition p){
+	public boolean isSame(Proposition p){
 		if( ( p.getxPos() == xPos ) && ( p.getyPos() == yPos ) && ( p.getType() == type ) && ( p.isNegation() == negation ) )return true;
 		else return false;
 	}
@@ -101,13 +101,13 @@ public class Preposition {
 	 * This function is a helping function checking negativity of a preposition
 	 */
 	
-	public boolean isNegation(Preposition p){
+	public boolean isNegation(Proposition p){
 		if( ( p.getxPos() == xPos ) && ( p.getyPos() == yPos ) && ( p.getType() == type ) && ( p.isNegation() != negation ) )return true;
 		else return false;
 	}
 	
-	public Preposition toggleNegation(){
-		return new Preposition(type, !negation, xPos, yPos);
+	public Proposition toggleNegation(){
+		return new Proposition(type, !negation, xPos, yPos);
 	}
 
 	/**

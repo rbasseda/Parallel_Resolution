@@ -28,7 +28,7 @@ public class Agent {
 	 */
 
 
-	KnowledgeBase kb = new KnowledgeBase();
+	KnowledgeBase kb;
 
 
 	/**
@@ -44,6 +44,7 @@ public class Agent {
 		this.xPos = xPos;
 		this.yPos = yPos;
 		executeActions();
+		kb = new KnowledgeBase(cave.getSize());
 
 
 	}
@@ -67,6 +68,7 @@ public class Agent {
 		this.direction = direction;
 		outputMode = oMode;
 		executeActions();
+		kb = new KnowledgeBase(cave.getSize());
 	}
 
 
@@ -83,11 +85,11 @@ public class Agent {
 				System.out.println("My Score is " + score);
 				return;
 			}
-			if( currentPerception.isBreeze() )resolutionSteps += kb.addFact(new Preposition('B', true, xPos, yPos));
-			else resolutionSteps += kb.addFact(new Preposition('B', false, xPos, yPos));
-			if( currentPerception.isStench() ) resolutionSteps += kb.addFact(new Preposition('S', true, xPos, yPos));
-			else resolutionSteps += kb.addFact(new Preposition('S', false, xPos, yPos));
-			resolutionSteps += kb.addFact(new Preposition('V', true, xPos, yPos));
+			if( currentPerception.isBreeze() )resolutionSteps += kb.addFact(new Proposition('B', true, xPos, yPos));
+			else resolutionSteps += kb.addFact(new Proposition('B', false, xPos, yPos));
+			if( currentPerception.isStench() ) resolutionSteps += kb.addFact(new Proposition('S', true, xPos, yPos));
+			else resolutionSteps += kb.addFact(new Proposition('S', false, xPos, yPos));
+			resolutionSteps += kb.addFact(new Proposition('V', true, xPos, yPos));
 			if( currentPerception.isScream() )kb.wumpusHasBeenKilled();
 			currentPerception = chooseAction();
 			if(outputMode == 0) System.out.println(kb.numberOfFacts() + "\t" + kb.numberOfClauses() + "\t" + resolutionSteps);
@@ -151,38 +153,38 @@ public class Agent {
 		switch(direction){
 		case 0:
 			if(xPos<3){
-				if ( kb.queryFact(new Preposition('P', true, ( xPos + 1 ), yPos)) )return -1001;
-				if ( kb.queryFact(new Preposition('W', true, ( xPos + 1 ), yPos)) )return -1001;
-				if ( ( kb.queryFact( (new Preposition('O', true, ( xPos + 1 ), yPos)) ) && ( !kb.queryFact(new Preposition('V', true, ( xPos + 1 ), yPos))) ) )return 999;
-				if ( ( kb.queryFact( (new Preposition('O', true, ( xPos + 1 ), yPos)) ) && ( kb.queryFact(new Preposition('V', true, ( xPos + 1 ), yPos))) ) )return -1;
-				if ( kb.queryFact (new Preposition('O', true, ( xPos + 1 ), yPos)) )   return -201;
+				if ( kb.queryFact(new Proposition('P', true, ( xPos + 1 ), yPos)) )return -1001;
+				if ( kb.queryFact(new Proposition('W', true, ( xPos + 1 ), yPos)) )return -1001;
+				if ( ( kb.queryFact( (new Proposition('O', true, ( xPos + 1 ), yPos)) ) && ( !kb.queryFact(new Proposition('V', true, ( xPos + 1 ), yPos))) ) )return 999;
+				if ( ( kb.queryFact( (new Proposition('O', true, ( xPos + 1 ), yPos)) ) && ( kb.queryFact(new Proposition('V', true, ( xPos + 1 ), yPos))) ) )return -1;
+				if ( kb.queryFact (new Proposition('O', true, ( xPos + 1 ), yPos)) )   return -201;
 			} else return -4000;
 			break;
 		case 1:
 			if(yPos<3){
-				if ( kb.queryFact(new Preposition('P', true, xPos, ( yPos + 1 ))) )return -1001;
-				if ( kb.queryFact(new Preposition('W', true, xPos, ( yPos + 1 ))) )return -1001;
-				if ( ( kb.queryFact( (new Preposition('O', true, xPos, ( yPos + 1 ))) ) && ( !kb.queryFact(new Preposition('V', true, xPos, ( yPos + 1 )))) ) )return 999;
-				if ( ( kb.queryFact( (new Preposition('O', true, xPos, ( yPos + 1 ))) ) && ( kb.queryFact(new Preposition('V', true, xPos, ( yPos + 1 )))) ) )return -1;
-				if ( kb.queryFact (new Preposition('O', true, xPos, ( yPos + 1 ))) )   return -201;
+				if ( kb.queryFact(new Proposition('P', true, xPos, ( yPos + 1 ))) )return -1001;
+				if ( kb.queryFact(new Proposition('W', true, xPos, ( yPos + 1 ))) )return -1001;
+				if ( ( kb.queryFact( (new Proposition('O', true, xPos, ( yPos + 1 ))) ) && ( !kb.queryFact(new Proposition('V', true, xPos, ( yPos + 1 )))) ) )return 999;
+				if ( ( kb.queryFact( (new Proposition('O', true, xPos, ( yPos + 1 ))) ) && ( kb.queryFact(new Proposition('V', true, xPos, ( yPos + 1 )))) ) )return -1;
+				if ( kb.queryFact (new Proposition('O', true, xPos, ( yPos + 1 ))) )   return -201;
 			} else return -4000;
 			break;	
 		case 2:
 			if(xPos>0){
-				if ( kb.queryFact(new Preposition('P', true, ( xPos - 1 ), yPos)) )return -1001;
-				if ( kb.queryFact(new Preposition('W', true, ( xPos - 1 ), yPos)) )return -1001;
-				if ( ( kb.queryFact( (new Preposition('O', true, ( xPos - 1 ), yPos)) ) && ( !kb.queryFact(new Preposition('V', true, ( xPos - 1 ), yPos))) ) )return 999;
-				if ( ( kb.queryFact( (new Preposition('O', true, ( xPos - 1 ), yPos)) ) && ( kb.queryFact(new Preposition('V', true, ( xPos - 1 ), yPos))) ) )return -1;
-				if ( kb.queryFact (new Preposition('O', true, ( xPos - 1 ), yPos)) )   return -201;
+				if ( kb.queryFact(new Proposition('P', true, ( xPos - 1 ), yPos)) )return -1001;
+				if ( kb.queryFact(new Proposition('W', true, ( xPos - 1 ), yPos)) )return -1001;
+				if ( ( kb.queryFact( (new Proposition('O', true, ( xPos - 1 ), yPos)) ) && ( !kb.queryFact(new Proposition('V', true, ( xPos - 1 ), yPos))) ) )return 999;
+				if ( ( kb.queryFact( (new Proposition('O', true, ( xPos - 1 ), yPos)) ) && ( kb.queryFact(new Proposition('V', true, ( xPos - 1 ), yPos))) ) )return -1;
+				if ( kb.queryFact (new Proposition('O', true, ( xPos - 1 ), yPos)) )   return -201;
 			} else return -4000;
 			break;	
 		case 3:
 			if(yPos>0){
-				if ( kb.queryFact(new Preposition('P', true, xPos, ( yPos - 1 ))) )return -1001;
-				if ( kb.queryFact(new Preposition('W', true, xPos, ( yPos - 1 ))) )return -1001;
-				if ( ( kb.queryFact( (new Preposition('O', true, xPos, ( yPos - 1 ))) ) && ( !kb.queryFact(new Preposition('V', true, xPos, ( yPos - 1 )))) ) )return 999;
-				if ( ( kb.queryFact( (new Preposition('O', true, xPos, ( yPos - 1 ))) ) && ( kb.queryFact(new Preposition('V', true, xPos, ( yPos - 1 )))) ) )return -1;
-				if ( kb.queryFact (new Preposition('O', true, xPos, ( yPos - 1 ))) )   return -201;
+				if ( kb.queryFact(new Proposition('P', true, xPos, ( yPos - 1 ))) )return -1001;
+				if ( kb.queryFact(new Proposition('W', true, xPos, ( yPos - 1 ))) )return -1001;
+				if ( ( kb.queryFact( (new Proposition('O', true, xPos, ( yPos - 1 ))) ) && ( !kb.queryFact(new Proposition('V', true, xPos, ( yPos - 1 )))) ) )return 999;
+				if ( ( kb.queryFact( (new Proposition('O', true, xPos, ( yPos - 1 ))) ) && ( kb.queryFact(new Proposition('V', true, xPos, ( yPos - 1 )))) ) )return -1;
+				if ( kb.queryFact (new Proposition('O', true, xPos, ( yPos - 1 ))) )   return -201;
 			} else return -4000;
 			break;	
 		default:
@@ -203,38 +205,38 @@ public class Agent {
 		switch(direction){
 		case 3:
 			if(xPos<3){
-				if ( kb.queryFact(new Preposition('P', true, ( xPos + 1 ), yPos)) )return -1002;
-				if ( kb.queryFact(new Preposition('W', true, ( xPos + 1 ), yPos)) )return -1002;
-				if ( ( kb.queryFact( (new Preposition('O', true, ( xPos + 1 ), yPos)) ) && ( !kb.queryFact(new Preposition('V', true, ( xPos + 1 ), yPos))) ) )return 998;
-				if ( ( kb.queryFact( (new Preposition('O', true, ( xPos + 1 ), yPos)) ) && ( kb.queryFact(new Preposition('V', true, ( xPos + 1 ), yPos))) ) )return -2;
-				if ( kb.queryFact (new Preposition('O', true, ( xPos + 1 ), yPos)) )   return -202;
+				if ( kb.queryFact(new Proposition('P', true, ( xPos + 1 ), yPos)) )return -1002;
+				if ( kb.queryFact(new Proposition('W', true, ( xPos + 1 ), yPos)) )return -1002;
+				if ( ( kb.queryFact( (new Proposition('O', true, ( xPos + 1 ), yPos)) ) && ( !kb.queryFact(new Proposition('V', true, ( xPos + 1 ), yPos))) ) )return 998;
+				if ( ( kb.queryFact( (new Proposition('O', true, ( xPos + 1 ), yPos)) ) && ( kb.queryFact(new Proposition('V', true, ( xPos + 1 ), yPos))) ) )return -2;
+				if ( kb.queryFact (new Proposition('O', true, ( xPos + 1 ), yPos)) )   return -202;
 			} else return -4001;
 			break;
 		case 0:
 			if(yPos<3){
-				if ( kb.queryFact(new Preposition('P', true, xPos, ( yPos + 1 ))) )return -1002;
-				if ( kb.queryFact(new Preposition('W', true, xPos, ( yPos + 1 ))) )return -1002;
-				if ( ( kb.queryFact( (new Preposition('O', true, xPos, ( yPos + 1 ))) ) && ( !kb.queryFact(new Preposition('V', true, xPos, ( yPos + 1 )))) ) )return 998;
-				if ( ( kb.queryFact( (new Preposition('O', true, xPos, ( yPos + 1 ))) ) && ( kb.queryFact(new Preposition('V', true, xPos, ( yPos + 1 )))) ) )return -2;
-				if ( kb.queryFact (new Preposition('O', true, xPos, ( yPos + 1 ))) )   return -202;
+				if ( kb.queryFact(new Proposition('P', true, xPos, ( yPos + 1 ))) )return -1002;
+				if ( kb.queryFact(new Proposition('W', true, xPos, ( yPos + 1 ))) )return -1002;
+				if ( ( kb.queryFact( (new Proposition('O', true, xPos, ( yPos + 1 ))) ) && ( !kb.queryFact(new Proposition('V', true, xPos, ( yPos + 1 )))) ) )return 998;
+				if ( ( kb.queryFact( (new Proposition('O', true, xPos, ( yPos + 1 ))) ) && ( kb.queryFact(new Proposition('V', true, xPos, ( yPos + 1 )))) ) )return -2;
+				if ( kb.queryFact (new Proposition('O', true, xPos, ( yPos + 1 ))) )   return -202;
 			} else return -4001;
 			break;	
 		case 1:
 			if(xPos>0){
-				if ( kb.queryFact(new Preposition('P', true, ( xPos - 1 ), yPos)) )return -1002;
-				if ( kb.queryFact(new Preposition('W', true, ( xPos - 1 ), yPos)) )return -1002;
-				if ( ( kb.queryFact( (new Preposition('O', true, ( xPos - 1 ), yPos)) ) && ( !kb.queryFact(new Preposition('V', true, ( xPos - 1 ), yPos))) ) )return 998;
-				if ( ( kb.queryFact( (new Preposition('O', true, ( xPos - 1 ), yPos)) ) && ( kb.queryFact(new Preposition('V', true, ( xPos - 1 ), yPos))) ) )return -2;
-				if ( kb.queryFact (new Preposition('O', true, ( xPos - 1 ), yPos)) )   return -202;
+				if ( kb.queryFact(new Proposition('P', true, ( xPos - 1 ), yPos)) )return -1002;
+				if ( kb.queryFact(new Proposition('W', true, ( xPos - 1 ), yPos)) )return -1002;
+				if ( ( kb.queryFact( (new Proposition('O', true, ( xPos - 1 ), yPos)) ) && ( !kb.queryFact(new Proposition('V', true, ( xPos - 1 ), yPos))) ) )return 998;
+				if ( ( kb.queryFact( (new Proposition('O', true, ( xPos - 1 ), yPos)) ) && ( kb.queryFact(new Proposition('V', true, ( xPos - 1 ), yPos))) ) )return -2;
+				if ( kb.queryFact (new Proposition('O', true, ( xPos - 1 ), yPos)) )   return -202;
 			} else return -4001;
 			break;	
 		case 2:
 			if(yPos>0){
-				if ( kb.queryFact(new Preposition('P', true, xPos, ( yPos - 1 ))) )return -1002;
-				if ( kb.queryFact(new Preposition('W', true, xPos, ( yPos - 1 ))) )return -1002;
-				if ( ( kb.queryFact( (new Preposition('O', true, xPos, ( yPos - 1 ))) ) && ( !kb.queryFact(new Preposition('V', true, xPos, ( yPos - 1 )))) ) )return 998;
-				if ( ( kb.queryFact( (new Preposition('O', true, xPos, ( yPos - 1 ))) ) && ( kb.queryFact(new Preposition('V', true, xPos, ( yPos - 1 )))) ) )return -2;
-				if ( kb.queryFact (new Preposition('O', true, xPos, ( yPos - 1 ))) )   return -202;
+				if ( kb.queryFact(new Proposition('P', true, xPos, ( yPos - 1 ))) )return -1002;
+				if ( kb.queryFact(new Proposition('W', true, xPos, ( yPos - 1 ))) )return -1002;
+				if ( ( kb.queryFact( (new Proposition('O', true, xPos, ( yPos - 1 ))) ) && ( !kb.queryFact(new Proposition('V', true, xPos, ( yPos - 1 )))) ) )return 998;
+				if ( ( kb.queryFact( (new Proposition('O', true, xPos, ( yPos - 1 ))) ) && ( kb.queryFact(new Proposition('V', true, xPos, ( yPos - 1 )))) ) )return -2;
+				if ( kb.queryFact (new Proposition('O', true, xPos, ( yPos - 1 ))) )   return -202;
 			} else return -4001;
 			break;	
 		default:
@@ -255,38 +257,38 @@ public class Agent {
 		switch(direction){
 		case 1:
 			if(xPos<3){
-				if ( kb.queryFact(new Preposition('P', true, ( xPos + 1 ), yPos)) )return -1002;
-				if ( kb.queryFact(new Preposition('W', true, ( xPos + 1 ), yPos)) )return -1002;
-				if ( ( kb.queryFact( (new Preposition('O', true, ( xPos + 1 ), yPos)) ) && ( !kb.queryFact(new Preposition('V', true, ( xPos + 1 ), yPos))) ) )return 998;
-				if ( ( kb.queryFact( (new Preposition('O', true, ( xPos + 1 ), yPos)) ) && ( kb.queryFact(new Preposition('V', true, ( xPos + 1 ), yPos))) ) )return -2;
-				if ( kb.queryFact (new Preposition('O', true, ( xPos + 1 ), yPos)) )   return -202;
+				if ( kb.queryFact(new Proposition('P', true, ( xPos + 1 ), yPos)) )return -1002;
+				if ( kb.queryFact(new Proposition('W', true, ( xPos + 1 ), yPos)) )return -1002;
+				if ( ( kb.queryFact( (new Proposition('O', true, ( xPos + 1 ), yPos)) ) && ( !kb.queryFact(new Proposition('V', true, ( xPos + 1 ), yPos))) ) )return 998;
+				if ( ( kb.queryFact( (new Proposition('O', true, ( xPos + 1 ), yPos)) ) && ( kb.queryFact(new Proposition('V', true, ( xPos + 1 ), yPos))) ) )return -2;
+				if ( kb.queryFact (new Proposition('O', true, ( xPos + 1 ), yPos)) )   return -202;
 			} else return -4001;
 			break;
 		case 2:
 			if(yPos<3){
-				if ( kb.queryFact(new Preposition('P', true, xPos, ( yPos + 1 ))) )return -1002;
-				if ( kb.queryFact(new Preposition('W', true, xPos, ( yPos + 1 ))) )return -1002;
-				if ( ( kb.queryFact( (new Preposition('O', true, xPos, ( yPos + 1 ))) ) && ( !kb.queryFact(new Preposition('V', true, xPos, ( yPos + 1 )))) ) )return 998;
-				if ( ( kb.queryFact( (new Preposition('O', true, xPos, ( yPos + 1 ))) ) && ( kb.queryFact(new Preposition('V', true, xPos, ( yPos + 1 )))) ) )return -2;
-				if ( kb.queryFact (new Preposition('O', true, xPos, ( yPos + 1 ))) )   return -202;
+				if ( kb.queryFact(new Proposition('P', true, xPos, ( yPos + 1 ))) )return -1002;
+				if ( kb.queryFact(new Proposition('W', true, xPos, ( yPos + 1 ))) )return -1002;
+				if ( ( kb.queryFact( (new Proposition('O', true, xPos, ( yPos + 1 ))) ) && ( !kb.queryFact(new Proposition('V', true, xPos, ( yPos + 1 )))) ) )return 998;
+				if ( ( kb.queryFact( (new Proposition('O', true, xPos, ( yPos + 1 ))) ) && ( kb.queryFact(new Proposition('V', true, xPos, ( yPos + 1 )))) ) )return -2;
+				if ( kb.queryFact (new Proposition('O', true, xPos, ( yPos + 1 ))) )   return -202;
 			} else return -4001;
 			break;	
 		case 3:
 			if(xPos>0){
-				if ( kb.queryFact(new Preposition('P', true, ( xPos - 1 ), yPos)) )return -1002;
-				if ( kb.queryFact(new Preposition('W', true, ( xPos - 1 ), yPos)) )return -1002;
-				if ( ( kb.queryFact( (new Preposition('O', true, ( xPos - 1 ), yPos)) ) && ( !kb.queryFact(new Preposition('V', true, ( xPos - 1 ), yPos))) ) )return 998;
-				if ( ( kb.queryFact( (new Preposition('O', true, ( xPos - 1 ), yPos)) ) && ( kb.queryFact(new Preposition('V', true, ( xPos - 1 ), yPos))) ) )return -2;
-				if ( kb.queryFact (new Preposition('O', true, ( xPos - 1 ), yPos)) )   return -202;
+				if ( kb.queryFact(new Proposition('P', true, ( xPos - 1 ), yPos)) )return -1002;
+				if ( kb.queryFact(new Proposition('W', true, ( xPos - 1 ), yPos)) )return -1002;
+				if ( ( kb.queryFact( (new Proposition('O', true, ( xPos - 1 ), yPos)) ) && ( !kb.queryFact(new Proposition('V', true, ( xPos - 1 ), yPos))) ) )return 998;
+				if ( ( kb.queryFact( (new Proposition('O', true, ( xPos - 1 ), yPos)) ) && ( kb.queryFact(new Proposition('V', true, ( xPos - 1 ), yPos))) ) )return -2;
+				if ( kb.queryFact (new Proposition('O', true, ( xPos - 1 ), yPos)) )   return -202;
 			} else return -4001;
 			break;	
 		case 0:
 			if(yPos>0){
-				if ( kb.queryFact(new Preposition('P', true, xPos, ( yPos - 1 ))) )return -1002;
-				if ( kb.queryFact(new Preposition('W', true, xPos, ( yPos - 1 ))) )return -1002;
-				if ( ( kb.queryFact( (new Preposition('O', true, xPos, ( yPos - 1 ))) ) && ( !kb.queryFact(new Preposition('V', true, xPos, ( yPos - 1 )))) ) )return 998;
-				if ( ( kb.queryFact( (new Preposition('O', true, xPos, ( yPos - 1 ))) ) && ( kb.queryFact(new Preposition('V', true, xPos, ( yPos - 1 )))) ) )return -2;
-				if ( kb.queryFact (new Preposition('O', true, xPos, ( yPos - 1 ))) )   return -202;
+				if ( kb.queryFact(new Proposition('P', true, xPos, ( yPos - 1 ))) )return -1002;
+				if ( kb.queryFact(new Proposition('W', true, xPos, ( yPos - 1 ))) )return -1002;
+				if ( ( kb.queryFact( (new Proposition('O', true, xPos, ( yPos - 1 ))) ) && ( !kb.queryFact(new Proposition('V', true, xPos, ( yPos - 1 )))) ) )return 998;
+				if ( ( kb.queryFact( (new Proposition('O', true, xPos, ( yPos - 1 ))) ) && ( kb.queryFact(new Proposition('V', true, xPos, ( yPos - 1 )))) ) )return -2;
+				if ( kb.queryFact (new Proposition('O', true, xPos, ( yPos - 1 ))) )   return -202;
 			} else return -4001;
 			break;	
 		default:
@@ -307,38 +309,38 @@ public class Agent {
 		switch(direction){
 		case 2:
 			if(xPos<3){
-				if ( kb.queryFact(new Preposition('P', true, ( xPos + 1 ), yPos)) )return -1003;
-				if ( kb.queryFact(new Preposition('W', true, ( xPos + 1 ), yPos)) )return -1003;
-				if ( ( kb.queryFact( (new Preposition('O', true, ( xPos + 1 ), yPos)) ) && ( !kb.queryFact(new Preposition('V', true, ( xPos + 1 ), yPos))) ) )return 997;
-				if ( ( kb.queryFact( (new Preposition('O', true, ( xPos + 1 ), yPos)) ) && ( kb.queryFact(new Preposition('V', true, ( xPos + 1 ), yPos))) ) )return -3;
-				if ( kb.queryFact (new Preposition('O', true, ( xPos + 1 ), yPos)) )   return -203;
+				if ( kb.queryFact(new Proposition('P', true, ( xPos + 1 ), yPos)) )return -1003;
+				if ( kb.queryFact(new Proposition('W', true, ( xPos + 1 ), yPos)) )return -1003;
+				if ( ( kb.queryFact( (new Proposition('O', true, ( xPos + 1 ), yPos)) ) && ( !kb.queryFact(new Proposition('V', true, ( xPos + 1 ), yPos))) ) )return 997;
+				if ( ( kb.queryFact( (new Proposition('O', true, ( xPos + 1 ), yPos)) ) && ( kb.queryFact(new Proposition('V', true, ( xPos + 1 ), yPos))) ) )return -3;
+				if ( kb.queryFact (new Proposition('O', true, ( xPos + 1 ), yPos)) )   return -203;
 			} else return -4002;
 			break;
 		case 3:
 			if(yPos<3){
-				if ( kb.queryFact(new Preposition('P', true, xPos, ( yPos + 1 ))) )return -1003;
-				if ( kb.queryFact(new Preposition('W', true, xPos, ( yPos + 1 ))) )return -1003;
-				if ( ( kb.queryFact( (new Preposition('O', true, xPos, ( yPos + 1 ))) ) && ( !kb.queryFact(new Preposition('V', true, xPos, ( yPos + 1 )))) ) )return 997;
-				if ( ( kb.queryFact( (new Preposition('O', true, xPos, ( yPos + 1 ))) ) && ( kb.queryFact(new Preposition('V', true, xPos, ( yPos + 1 )))) ) )return -3;
-				if ( kb.queryFact (new Preposition('O', true, xPos, ( yPos + 1 ))) )   return -203;
+				if ( kb.queryFact(new Proposition('P', true, xPos, ( yPos + 1 ))) )return -1003;
+				if ( kb.queryFact(new Proposition('W', true, xPos, ( yPos + 1 ))) )return -1003;
+				if ( ( kb.queryFact( (new Proposition('O', true, xPos, ( yPos + 1 ))) ) && ( !kb.queryFact(new Proposition('V', true, xPos, ( yPos + 1 )))) ) )return 997;
+				if ( ( kb.queryFact( (new Proposition('O', true, xPos, ( yPos + 1 ))) ) && ( kb.queryFact(new Proposition('V', true, xPos, ( yPos + 1 )))) ) )return -3;
+				if ( kb.queryFact (new Proposition('O', true, xPos, ( yPos + 1 ))) )   return -203;
 			} else return -4002;
 			break;	
 		case 0:
 			if(xPos>0){
-				if ( kb.queryFact(new Preposition('P', true, ( xPos - 1 ), yPos)) )return -1003;
-				if ( kb.queryFact(new Preposition('W', true, ( xPos - 1 ), yPos)) )return -1003;
-				if ( ( kb.queryFact( (new Preposition('O', true, ( xPos - 1 ), yPos)) ) && ( !kb.queryFact(new Preposition('V', true, ( xPos - 1 ), yPos))) ) )return 997;
-				if ( ( kb.queryFact( (new Preposition('O', true, ( xPos - 1 ), yPos)) ) && ( kb.queryFact(new Preposition('V', true, ( xPos - 1 ), yPos))) ) )return -3;
-				if ( kb.queryFact (new Preposition('O', true, ( xPos - 1 ), yPos)) )   return -203;
+				if ( kb.queryFact(new Proposition('P', true, ( xPos - 1 ), yPos)) )return -1003;
+				if ( kb.queryFact(new Proposition('W', true, ( xPos - 1 ), yPos)) )return -1003;
+				if ( ( kb.queryFact( (new Proposition('O', true, ( xPos - 1 ), yPos)) ) && ( !kb.queryFact(new Proposition('V', true, ( xPos - 1 ), yPos))) ) )return 997;
+				if ( ( kb.queryFact( (new Proposition('O', true, ( xPos - 1 ), yPos)) ) && ( kb.queryFact(new Proposition('V', true, ( xPos - 1 ), yPos))) ) )return -3;
+				if ( kb.queryFact (new Proposition('O', true, ( xPos - 1 ), yPos)) )   return -203;
 			} else return -4002;
 			break;	
 		case 1:
 			if(yPos>0){
-				if ( kb.queryFact(new Preposition('P', true, xPos, ( yPos - 1 ))) )return -1003;
-				if ( kb.queryFact(new Preposition('W', true, xPos, ( yPos - 1 ))) )return -1003;
-				if ( ( kb.queryFact( (new Preposition('O', true, xPos, ( yPos - 1 ))) ) && ( !kb.queryFact(new Preposition('V', true, xPos, ( yPos - 1 )))) ) )return 997;
-				if ( ( kb.queryFact( (new Preposition('O', true, xPos, ( yPos - 1 ))) ) && ( kb.queryFact(new Preposition('V', true, xPos, ( yPos - 1 )))) ) )return -3;
-				if ( kb.queryFact (new Preposition('O', true, xPos, ( yPos - 1 ))) )   return -203;
+				if ( kb.queryFact(new Proposition('P', true, xPos, ( yPos - 1 ))) )return -1003;
+				if ( kb.queryFact(new Proposition('W', true, xPos, ( yPos - 1 ))) )return -1003;
+				if ( ( kb.queryFact( (new Proposition('O', true, xPos, ( yPos - 1 ))) ) && ( !kb.queryFact(new Proposition('V', true, xPos, ( yPos - 1 )))) ) )return 997;
+				if ( ( kb.queryFact( (new Proposition('O', true, xPos, ( yPos - 1 ))) ) && ( kb.queryFact(new Proposition('V', true, xPos, ( yPos - 1 )))) ) )return -3;
+				if ( kb.queryFact (new Proposition('O', true, xPos, ( yPos - 1 ))) )   return -203;
 			} else return -4002;
 			break;	
 		default:
@@ -355,11 +357,11 @@ public class Agent {
 		//System.out.println("Changing Agent's Direction");
 		switch( direction ){
 		case 0:
-			if( xPos < 3 )++xPos;
+			if( xPos < cave.getSize() - 1 )++xPos;
 			else System.out.println("Agent is confused and trying move toward x and it is wall!");
 			break;
 		case 1:
-			if( yPos < 3 )++yPos;
+			if( yPos < cave.getSize() - 1 )++yPos;
 			else System.out.println("Agent is confused and trying move toward y and it is wall!");
 			break;
 		case 2:
