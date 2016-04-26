@@ -2,14 +2,23 @@ package wumpus;
 import java.lang.System;
 
 /**
- * Test change
- */
+*
+* WumpusGame.java
+*
+* Copyright (C) The Research Foundation of SUNY, 2015
+* All rights reserved.
+*
+* This software may be modified and distributed under the terms
+* of the BSD license.  See the LICENSE file for details.
+*
+* Created on: October 20th, 2011 
+* @author rbasseda
+* 
+* This is the main class of our project.
+* 
+*/
 
-/**
- * @author reza
- *
- *Main class of program
- */
+
 public class WumpusGame {
 
 	/**
