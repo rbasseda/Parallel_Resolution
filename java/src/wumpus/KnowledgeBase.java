@@ -57,8 +57,9 @@ public class KnowledgeBase {
 	 * 
 	 */
 	public boolean queryFact(Proposition q){
-		for( int i = 0 ; i < clauses.length ; ++i )
-			if( clauses[i].isFact(q) ) return true;
+		for(Clause clause:clauses)
+			if(clause.isFact(q))
+				return true;
 		return false;
 	}
 
